@@ -74,25 +74,25 @@ func Init() *dig.Container {
 	// }
 
 	////////////////以下和上文代码等价////////////////
-	type DBResut struct {
+	type DBResult struct {
 		dig.Out
 		
 		RWDB *sql.DB `name:"rw"`
 		RODB *sql.DB `name:"ro"`
 	}
 
-	err = c.Provide(func(opt *Option) (DBResut, error) {
+	err = c.Provide(func(opt *Option) (DBResult, error) {
 		rw, err := sql.Open(opt.driver, opt.dsn)
 		if err != nil {
-			return DBResut{}, err
+			return DBResult{}, err
 		}
 
 		ro, err := sql.Open("mysql", "user:password@/ro_dbname")
 		if err != nil {
-			return DBResut{}, err
+			return DBResult{}, err
 		}
 
-		return DBResut{RWDB: rw, RODB: ro}, nil
+		return DBResult{RWDB: rw, RODB: ro}, nil
 	})
 	if err != nil {
 		// ...
